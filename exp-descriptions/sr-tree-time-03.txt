@@ -57,25 +57,25 @@ ea.experiment(
         name = "mf-ga-flat";
         schedule = ea.schedule.flat(value = 1);
         representation = $representation;
-        mapper = ea.m.srTreeToNurf()
+        mapper = $mapper
       );
       ea.s.scheduledMfGa(
         name = "mf-ga-flat-quarter";
         schedule = ea.schedule.flat(value = 0.25);
         representation = $representation;
-        mapper = ea.m.srTreeToNurf()
+        mapper = $mapper
       );
       ea.s.scheduledMfGa(
         name = "mf-ga-linear";
         schedule = ea.schedule.linear(min = 0; max = 1);
         representation = $representation;
-        mapper = ea.m.srTreeToNurf()
+        mapper = $mapper
       );
       ea.s.scheduledMfGa(
         name = "mf-ga-half-linear";
         schedule = ea.schedule.evenPiecewise(values = [0; 1; 1]);
         representation = $representation;
-        mapper = ea.m.srTreeToNurf()
+        mapper = $mapper
       );
       ea.s.mapElites(
         name = "me";
