@@ -99,49 +99,50 @@ ea.experiment(
         f.mapValue(key = mse; of = ea.f.quality(of = ea.f.best()); format = "%6.2f");
         f.percentile(of = f.each(of = ea.f.all(); mapF = f.mapValue(key = mse; of = ea.f.quality())); p = 75; format = "%6.2f");
         ea.f.hist(of = f.each(of = ea.f.all(); mapF = f.mapValue(key = mse; of = ea.f.quality())));
-        f.mapValue(key = mse; of = ea.f.validationQuality(); format = "%6.2f")
+        f.mapValue(key = mse; of = ea.f.validationQuality(); format = "%6.2f");
+        ea.f.timestamp()
       ];
       onlyLast = true
     );
 
     % ========= CONVERGENCE PLOTS
-%    ea.l.savePlotForExp(
+%    ea.l.savePlotAndCsvForExp(
 %      path = "./exp-results/{name}/{startTime}/best-fitness.svg";
 %      plot = ea.plot.multi.quality(q = f.mapValue(key = mse));
 %      type = svg
 %    );
-%    ea.l.savePlotForExp(
+%    ea.l.savePlotAndCsvForExp(
 %      path = "./exp-results/{name}/{startTime}/best-validation.svg";
 %      plot = ea.plot.multi.xyExp(y = f.mapValue(key = mse; of = ea.f.validationQuality()));
 %      type = svg
 %    );
 
     % ========= BOX PLOTS
-    ea.l.savePlotForExp(
+    ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-best-fitness.svg";
       plot = ea.plot.multi.qualityBoxplot(q = f.mapValue(key = mse));
       configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
       type = svg
     );
-    ea.l.savePlotForExp(
+    ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-best-validation.svg";
       plot = ea.plot.multi.yBoxplotExp(y = f.mapValue(key = mse; of = ea.f.validationQuality()));
       configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
       type = svg
     );
-    ea.l.savePlotForExp(
+    ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-elapsed.svg";
       plot = ea.plot.multi.yBoxplotExp(y = ea.f.elapsedSecs());
       configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
       type = svg
     );
-    ea.l.savePlotForExp(
+    ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-cf.svg";
       plot = ea.plot.multi.yBoxplotExp(y = ea.f.cumulativeFidelity());
       configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
       type = svg
     );
-    ea.l.savePlotForExp(
+    ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-evals.svg";
       plot = ea.plot.multi.yBoxplotExp(y = ea.f.nOfEvals());
       configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
@@ -149,7 +150,7 @@ ea.experiment(
     );
 
     % ========= SCATTER PLOTS
-    ea.l.savePlotForExp(
+    ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-best-fitness-vs-elapsed.svg";
       plot = ea.plot.multi.scatterExp(
         x = ea.f.elapsedSecs();
@@ -159,7 +160,7 @@ ea.experiment(
       secondary = true;
       type = svg
     );
-    ea.l.savePlotForExp(
+    ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-best-validation-vs-elapsed.svg";
       plot = ea.plot.multi.scatterExp(
         x = ea.f.elapsedSecs();
@@ -169,7 +170,7 @@ ea.experiment(
       secondary = true;
       type = svg
     );
-    ea.l.savePlotForRun(
+    ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-best-fitness-vs-cf.svg";
       plot = ea.plot.multi.scatterExp(
         x = ea.f.cumulativeFidelity();
@@ -177,10 +178,9 @@ ea.experiment(
       );
       configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
       secondary = true;
-      type = svg;
-      overwrite = true
+      type = svg
     );
-    ea.l.savePlotForExp(
+    ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-best-validation-vs-cf.svg";
       plot = ea.plot.multi.scatterExp(
         x = ea.f.cumulativeFidelity();
@@ -190,7 +190,7 @@ ea.experiment(
       secondary = true;
       type = svg
     );
-    ea.l.savePlotForExp(
+    ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-best-fitness-vs-evals.svg";
       plot = ea.plot.multi.scatterExp(
         x = ea.f.nOfEvals();
@@ -200,7 +200,7 @@ ea.experiment(
       secondary = true;
       type = svg
     );
-    ea.l.savePlotForExp(
+    ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-best-validation-vs-evals.svg";
       plot = ea.plot.multi.scatterExp(
         x = ea.f.nOfEvals();
@@ -212,7 +212,7 @@ ea.experiment(
     );
 
     % ========= ARCHIVE PLOTS
-    ea.l.savePlotForRun(
+    ea.l.savePlotAndCsvForRun(
       path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-archive.svg";
       plot = ea.plot.single.me(
         q = f.mapValue(key = mse)
@@ -220,7 +220,7 @@ ea.experiment(
       condition = predicate.matches(f = ea.f.runKey(key = "run.solver.name"); regex = ".*me.*");
       type = svg
     );
-    ea.l.savePlotForRun(
+    ea.l.savePlotAndCsvForRun(
       path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-fidelity-archive.svg";
       plot = ea.plot.single.gridRun(
         values = [ea.f.mfMeLsFidelity()];
@@ -229,7 +229,7 @@ ea.experiment(
       condition = predicate.matches(f = ea.f.runKey(key = "run.solver.name"); regex = "mf-me.*");
       type = svg
     );
-    ea.l.savePlotForRun(
+    ea.l.savePlotAndCsvForRun(
       path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-cum-fidelity-archive.svg";
       plot = ea.plot.single.gridRun(
         values = [ea.f.mfMeLsCumulativeFidelity()];
@@ -240,7 +240,7 @@ ea.experiment(
     );
 
     % ========= TRAJECTORY PLOTS
-    ea.l.savePlotForRun(
+    ea.l.savePlotAndCsvForRun(
       path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-trajectory.svg";
       plot = ea.plot.single.xyrsRun(
         x = ea.f.cumulativeFidelity();
