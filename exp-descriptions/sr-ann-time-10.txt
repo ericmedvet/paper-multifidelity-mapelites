@@ -1,29 +1,47 @@
 $wt=1
 $nwt=-1
-$desc1 = ea.s.me.d.descriptor(
+$thresholdDesc1 = ea.s.me.d.descriptor(
   f = f.mathOp(
     op = divide;
     args = [
-      f.size(of = f.filter(condition = predicate.all(conditions = [predicate.lt(t = $wt); predicate.gt(t = $nwt)])));
+      f.size(of = f.filter(condition = predicate.all(conditions = [predicate.lt(t = 0.5); predicate.gt(t = -0.5)])));
       f.size()
     ];
-    of = ea.f.layerWeights(of = ds.f.inner(of = ds.f.inner(of = ea.f.solution())); indexOfLayer = 0)
+    of = f.flat(of = f.nTh(of = ds.f.weights(of = ds.f.inner(of = ds.f.inner(of = ea.f.solution()))); n = 0))
   );
   min = 0.0;
   max = 1.0;
   nOfBins = 8
 )
-$desc2 = ea.s.me.d.descriptor(
+$thresholdDesc2 = ea.s.me.d.descriptor(
   f = f.mathOp(
     op = divide;
     args = [
-      f.size(of = f.filter(condition = predicate.all(conditions = [predicate.lt(t = $wt); predicate.gt(t = $nwt)])));
+      f.size(of = f.filter(condition = predicate.all(conditions = [predicate.lt(t = 0.5); predicate.gt(t = -0.5)])));
       f.size()
     ];
-    of = ea.f.layerWeights(of = ds.f.inner(of = ds.f.inner(of = ea.f.solution())); indexOfLayer = 1)
+    of = f.flat(of = f.nTh(of = ds.f.weights(of = ds.f.inner(of = ds.f.inner(of = ea.f.solution()))); n = 1))
   );
   min = 0.0;
   max = 1.0;
+  nOfBins = 8
+)
+$varDesc1 = ea.s.me.d.descriptor(
+  f = f.avg(of = f.each(
+    of = f.nTh(of = ds.f.weights(of = ds.f.inner(of = ds.f.inner(of = ea.f.solution()))); n = 0);
+    mapF = f.sd()
+  ));
+  min = 0.0;
+  max = 3.0;
+  nOfBins = 8
+)
+$varDesc2 = ea.s.me.d.descriptor(
+  f = f.avg(of = f.each(
+    of = f.nTh(of = ds.f.weights(of = ds.f.inner(of = ds.f.inner(of = ea.f.solution()))); n = 1);
+    mapF = f.sd()
+  ));
+  min = 0.0;
+  max = 3.0;
   nOfBins = 8
 )
 
@@ -31,33 +49,54 @@ $representation = ea.r.doubleString()
 $mapper = ea.m.nmrfToNurf(of = ea.m.dsToNmrf(npmrf = ds.num.mlp(innerLayers = [8])))
 
 ea.experiment(
-  runs = (randomGenerator = (seed = [1:1:30]) * [m.defaultRG()]) *
+  runs = (randomGenerator = (seed = [1:1:1]) * [m.defaultRG()]) *
     (problem = [
       ea.p.moToSo(objective = mse; moProblem = ea.p.ur.bundled(name = "concrete"; xScaling = standardization; yScaling = symmetric_min_max));
       ea.p.moToSo(objective = mse; moProblem = ea.p.ur.bundled(name = "wine"; xScaling = standardization; yScaling = symmetric_min_max));
       ea.p.moToSo(objective = mse; moProblem = ea.p.ur.bundled(name = "energy-efficiency"; xScaling = standardization; yScaling = symmetric_min_max))
     ]) *
-    (solver = (stop = ea.sc.elapsed(v = 10)) * [
+    (solver = (stop = ea.sc.elapsed(v = 3)) * [
       ea.s.asyncScheduledMfMapElites(
-        name = "mf-me-linear-0.5";
+        name = "mf-me-linear-0.5-thresh";
         schedule = ea.schedule.linear(min = 0; max = 1);
         recomputationRatio = 0.5;
         representation = $representation;
         mapper = $mapper;
-        descriptors = [$desc1; $desc2]
+        descriptors = [$thresholdDesc1; $thresholdDesc2]
       );
       ea.s.asyncScheduledMfMapElites(
-        name = "mf-me-half-linear";
+        name = "mf-me-half-linear-thresh";
         schedule = ea.schedule.evenPiecewise(values = [0; 1; 1]);
         representation = $representation;
         mapper = $mapper;
-        descriptors = [$desc1; $desc2]
+        descriptors = [$thresholdDesc1; $thresholdDesc2]
       );
       ea.s.mapElites(
-        name = "me";
+        name = "me-thresh";
         representation = $representation;
         mapper = $mapper;
-        descriptors = [$desc1; $desc2]
+        descriptors = [$thresholdDesc1; $thresholdDesc2]
+      );
+      ea.s.asyncScheduledMfMapElites(
+        name = "mf-me-linear-0.5-var";
+        schedule = ea.schedule.linear(min = 0; max = 1);
+        recomputationRatio = 0.5;
+        representation = $representation;
+        mapper = $mapper;
+        descriptors = [$varDesc1; $varDesc2]
+      );
+      ea.s.asyncScheduledMfMapElites(
+        name = "mf-me-half-linear-var";
+        schedule = ea.schedule.evenPiecewise(values = [0; 1; 1]);
+        representation = $representation;
+        mapper = $mapper;
+        descriptors = [$varDesc1; $varDesc2]
+      );
+      ea.s.mapElites(
+        name = "me-var";
+        representation = $representation;
+        mapper = $mapper;
+        descriptors = [$varDesc1; $varDesc2]
       );
       ea.s.ga(
         name = "ga";
@@ -70,12 +109,12 @@ ea.experiment(
   listeners = [
     ea.l.console(
       functions = [
-        ea.f.cumulativeFidelity();
         ea.f.size(of = ea.f.genotype(of = ea.f.best()); format = "%3d");
         f.mapValue(key = mse; of = ea.f.quality(of = ea.f.best()); format = "%6.2f");
-        f.percentile(of = f.each(of = ea.f.all(); mapF = f.mapValue(key = mse; of = ea.f.quality())); p = 75; format = "%6.2f");
-        ea.f.hist(of = f.each(of = ea.f.all(); mapF = f.mapValue(key = mse; of = ea.f.quality())));
-        f.mapValue(key = mse; of = ea.f.validationQuality(); format = "%6.2f")
+        f.mapValue(key = mse; of = ea.f.validationQuality(); format = "%6.2f");
+        ea.f.cumulativeFidelity();
+        ea.f.archiveCoverage(of = ea.f.meArchive());
+        f.avg(of = f.each(of = ea.f.all(); mapF = f.mapValue(key = mse; of = ea.f.quality())))
       ];
       onlyLast = true
     );
@@ -95,6 +134,12 @@ ea.experiment(
     );
 
     % ========= BOX PLOTS
+    ea.l.savePlotForExp(
+      path = "./exp-results/{name}/{startTime}/final-coverage.svg";
+      plot = ea.plot.multi.yBoxplotExp(y = ea.f.archiveCoverage(of = ea.f.meArchive()));
+      condition = predicate.matches(f = ea.f.runKey(key = "run.solver.name"); regex = ".*me.*");
+      type = svg
+    );
     ea.l.savePlotForExp(
       path = "./exp-results/{name}/{startTime}/final-best-fitness.svg";
       plot = ea.plot.multi.qualityBoxplot(q = f.mapValue(key = mse));
