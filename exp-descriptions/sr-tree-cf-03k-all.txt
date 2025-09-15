@@ -18,7 +18,7 @@ $qdScore = f.as(name = "qd.score"; of = f.sum(format = "%4.2f"; of = f.each(
 )))
 
 ea.experiment(
-  runs = (randomGenerator = (seed = [1:1:30]) * [m.defaultRG()]) *
+  runs = (randomGenerator = (seed = [1:1:1]) * [m.defaultRG()]) *
     (problem = [
       ea.p.moToSo(objective = mse; moProblem = ea.p.ur.synthetic(name = "keijzer6"));
       ea.p.moToSo(objective = mse; moProblem = ea.p.ur.synthetic(name = "nguyen7"));
@@ -27,11 +27,34 @@ ea.experiment(
       ea.p.moToSo(objective = mse; moProblem = ea.p.ur.bundled(name = "wine"; xScaling = standardization; yScaling = symmetric_min_max));
       ea.p.moToSo(objective = mse; moProblem = ea.p.ur.bundled(name = "energy-efficiency"; xScaling = standardization; yScaling = symmetric_min_max))
     ]) *
-    (solver = (stop = ea.sc.elapsed(v = 10)) * [
+    (solver = (stop = ea.sc.cumulativeFidelity(v = 1000)) * [
       ea.s.asyncScheduledMfMapElites(
-        name = "mf-me-linear";
+        name = "mf-me-flat";
+        schedule = ea.schedule.flat(value = 1);
+        representation = $representation;
+        mapper = $mapper;
+        descriptors = [$desc1; $desc2]
+      );
+      ea.s.asyncScheduledMfMapElites(
+        name = "mf-me-linear-0.5";
         schedule = ea.schedule.linear(min = 0; max = 1);
         recomputationRatio = 0.5;
+        representation = $representation;
+        mapper = $mapper;
+        descriptors = [$desc1; $desc2]
+      );
+      ea.s.asyncScheduledMfMapElites(
+        name = "mf-me-linear-0.0";
+        schedule = ea.schedule.linear(min = 0; max = 1);
+        recomputationRatio = 0.0;
+        representation = $representation;
+        mapper = $mapper;
+        descriptors = [$desc1; $desc2]
+      );
+      ea.s.asyncScheduledMfMapElites(
+        name = "mf-me-linear-1.0";
+        schedule = ea.schedule.linear(min = 0; max = 1);
+        recomputationRatio = 1.0;
         representation = $representation;
         mapper = $mapper;
         descriptors = [$desc1; $desc2]
@@ -42,6 +65,30 @@ ea.experiment(
         representation = $representation;
         mapper = $mapper;
         descriptors = [$desc1; $desc2]
+      );
+      ea.s.scheduledMfGa(
+        name = "mf-ga-flat";
+        schedule = ea.schedule.flat(value = 1);
+        representation = $representation;
+        mapper = $mapper
+      );
+      ea.s.scheduledMfGa(
+        name = "mf-ga-flat-quarter";
+        schedule = ea.schedule.flat(value = 0.25);
+        representation = $representation;
+        mapper = $mapper
+      );
+      ea.s.scheduledMfGa(
+        name = "mf-ga-linear";
+        schedule = ea.schedule.linear(min = 0; max = 1);
+        representation = $representation;
+        mapper = $mapper
+      );
+      ea.s.scheduledMfGa(
+        name = "mf-ga-half-linear";
+        schedule = ea.schedule.evenPiecewise(values = [0; 1; 1]);
+        representation = $representation;
+        mapper = $mapper
       );
       ea.s.mapElites(
         name = "me";
@@ -127,16 +174,6 @@ ea.experiment(
       type = svg
     );
     ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/{name}/{startTime}/final-qd-score-vs-elapsed.svg";
-      plot = ea.plot.multi.scatterExp(
-        x = ea.f.elapsedSecs();
-        y = $qdScore
-      );
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      secondary = true;
-      type = svg
-    );
-    ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-best-validation-vs-elapsed.svg";
       plot = ea.plot.multi.scatterExp(
         x = ea.f.elapsedSecs();
@@ -151,16 +188,6 @@ ea.experiment(
       plot = ea.plot.multi.scatterExp(
         x = ea.f.cumulativeFidelity();
         y = f.mapValue(key = mse; of = ea.f.quality(of = ea.f.best()))
-      );
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      secondary = true;
-      type = svg
-    );
-    ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/{name}/{startTime}/final-qd-score-vs-cf.svg";
-      plot = ea.plot.multi.scatterExp(
-        x = ea.f.cumulativeFidelity();
-        y = $qdScore
       );
       configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
       secondary = true;
@@ -235,7 +262,7 @@ ea.experiment(
 
     % ========= TRAJECTORY PLOTS
     ea.l.savePlotAndCsvForRun(
-      path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-mse-trajectory.svg";
+      path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-trajectory.svg";
       plot = ea.plot.single.xyrsRun(
         x = ea.f.cumulativeFidelity();
         ys = [
@@ -252,6 +279,6 @@ ea.experiment(
         ys = [$qdScore]
       );
       type = svg
-    )
+    )    
   ]
 )
