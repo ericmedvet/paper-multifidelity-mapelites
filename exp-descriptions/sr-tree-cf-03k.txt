@@ -9,12 +9,28 @@ $cArchive = ea.f.computedArchive(
   descriptors = [$desc1; $desc2]
 )
 $qdScoreT = 0.2
-$qdScore = f.as(name = "qd.score"; of = f.sum(format = "%4.2f"; of = f.each(
+$qdScore = f.as(name = "qd.score"; of = f.sum(format = "%4.2f"; of = f.iEach(
   of = ea.f.archiveContents(of = $cArchive);
-  mapF = f.clip(range = m.range(min = 0; max = $qdScoreT); of = f.mathOp(op = subtract; args = [
-    f.mathConst(v = $qdScoreT);
-    f.mapValue(key = mse; of = ea.f.quality())
-  ]))
+  iMapF = f.iComposition(
+    of = ea.f.qualityFunction(of = ea.f.problem());
+    before = ea.f.solution();
+    then = f.clip(range = m.range(min = 0; max = $qdScoreT); of = f.mathOp(op = subtract; args = [
+      f.mathConst(v = $qdScoreT);
+      f.mapValue(key = mse)
+    ]))
+  )
+)))
+$valQdScoreT = 0.25
+$valQdScore = f.as(name = "val.qd.score"; of = f.sum(format = "%4.2f"; of = f.iEach(
+  of = ea.f.archiveContents(of = $cArchive);
+  iMapF = f.iComposition(
+    of = ea.f.validationQualityFunction(of = ea.f.problem());
+    before = ea.f.solution();
+    then = f.clip(range = m.range(min = 0; max = $valQdScoreT); of = f.mathOp(op = subtract; args = [
+      f.mathConst(v = $qdScoreT);
+      f.mapValue(key = mse)
+    ]))
+  )
 )))
 
 ea.experiment(
@@ -66,9 +82,36 @@ ea.experiment(
         ea.f.cumulativeFidelity();
         ea.f.archiveCoverage(of = $cArchive);
         $qdScore;
+        $valQdScore;
         ea.f.timestamp()
       ];
       onlyLast = true
+    );
+
+    % ========= CONVERGENCE PLOTS
+    ea.l.savePlotAndCsvForExp(
+      path = "./exp-results/experiments/{name}/{startTime}/best-fitness.svg";
+      plot = ea.plot.multi.quality(q = f.mapValue(key = mse));
+      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+      type = svg
+    );
+    ea.l.savePlotAndCsvForExp(
+      path = "./exp-results/{name}/{startTime}/best-validation.svg";
+      plot = ea.plot.multi.xyExp(y = f.mapValue(key = mse; of = ea.f.validationQuality()));
+      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+      type = svg
+    );
+    ea.l.savePlotAndCsvForExp(
+      path = "./exp-results/{name}/{startTime}/qd-score-fitness.svg";
+      plot = ea.plot.multi.xyExp(y = $qdScore);
+      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+      type = svg
+    );
+    ea.l.savePlotAndCsvForExp(
+      path = "./exp-results/{name}/{startTime}/validation-qd-score.svg";
+      plot = ea.plot.multi.xyExp(y = $valQdScore);
+      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+      type = svg
     );
 
     % ========= BOX PLOTS
@@ -93,6 +136,12 @@ ea.experiment(
     ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-qd-score.svg";
       plot = ea.plot.multi.yBoxplotExp(y = $qdScore);
+      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+      type = svg
+    );
+    ea.l.savePlotAndCsvForExp(
+      path = "./exp-results/{name}/{startTime}/final-validation-qd-score.svg";
+      plot = ea.plot.multi.yBoxplotExp(y = $valQdScore);
       configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
       type = svg
     );
