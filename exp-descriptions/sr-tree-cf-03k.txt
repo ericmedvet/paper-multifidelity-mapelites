@@ -88,32 +88,6 @@ ea.experiment(
       onlyLast = true
     );
 
-    % ========= CONVERGENCE PLOTS
-    ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/experiments/{name}/{startTime}/best-fitness.svg";
-      plot = ea.plot.multi.quality(q = f.mapValue(key = mse));
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      type = svg
-    );
-    ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/{name}/{startTime}/best-validation.svg";
-      plot = ea.plot.multi.xyExp(y = f.mapValue(key = mse; of = ea.f.validationQuality()));
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      type = svg
-    );
-    ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/{name}/{startTime}/qd-score-fitness.svg";
-      plot = ea.plot.multi.xyExp(y = $qdScore);
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      type = svg
-    );
-    ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/{name}/{startTime}/validation-qd-score.svg";
-      plot = ea.plot.multi.xyExp(y = $valQdScore);
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      type = svg
-    );
-
     % ========= BOX PLOTS
     ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-best-fitness.svg";
@@ -280,27 +254,7 @@ ea.experiment(
       );
       condition = predicate.matches(f = ea.f.runKey(key = "run.solver.name"); regex = "mf-me.*");
       type = svg
-    );
-
-    % ========= TRAJECTORY PLOTS
-    ea.l.savePlotAndCsvForRun(
-      path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-mse-trajectory.svg";
-      plot = ea.plot.single.xyrsRun(
-        x = ea.f.cumulativeFidelity();
-        ys = [
-          f.mapValue(key = mse; of = ea.f.quality(of = ea.f.best()));
-          f.mapValue(key = mse; of = ea.f.validationQuality())
-        ]
-      );
-      type = svg
-    );
-    ea.l.savePlotAndCsvForRun(
-      path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-qd-score-trajectory.svg";
-      plot = ea.plot.single.xyrsRun(
-        x = ea.f.cumulativeFidelity();
-        ys = [$qdScore]
-      );
-      type = svg
     )
+
   ]
 )
