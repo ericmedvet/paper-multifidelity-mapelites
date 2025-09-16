@@ -9,7 +9,7 @@ $cArchive = ea.f.computedArchive(
   descriptors = [$desc1; $desc2]
 )
 $qdScoreT = 0.2
-$qdScore = f.as(name = "qd.score"; of = f.sum(format = "%4.2f"; of = f.iEach(
+$qdScore = ea.f.cached(of = f.as(name = "qd.score"; of = f.sum(format = "%4.2f"; of = f.iEach(
   of = ea.f.archiveContents(of = $cArchive);
   iMapF = f.iComposition(
     of = ea.f.qualityFunction(of = ea.f.problem());
@@ -19,9 +19,9 @@ $qdScore = f.as(name = "qd.score"; of = f.sum(format = "%4.2f"; of = f.iEach(
       f.mapValue(key = mse)
     ]))
   )
-)))
+))))
 $valQdScoreT = 0.25
-$valQdScore = f.as(name = "val.qd.score"; of = f.sum(format = "%4.2f"; of = f.iEach(
+$valQdScore = ea.f.cached(of = f.as(name = "val.qd.score"; of = f.sum(format = "%4.2f"; of = f.iEach(
   of = ea.f.archiveContents(of = $cArchive);
   iMapF = f.iComposition(
     of = ea.f.validationQualityFunction(of = ea.f.problem());
@@ -31,7 +31,7 @@ $valQdScore = f.as(name = "val.qd.score"; of = f.sum(format = "%4.2f"; of = f.iE
       f.mapValue(key = mse)
     ]))
   )
-)))
+))))
 
 ea.experiment(
   runs = (randomGenerator = (seed = [1:1:30]) * [m.defaultRG()]) *
