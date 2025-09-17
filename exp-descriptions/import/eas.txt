@@ -1,0 +1,74 @@
+$mfMeFlat = ea.s.asyncScheduledMfMapElites(
+  name = "mf-me-flat";
+  schedule = ea.schedule.flat(value = 1);
+  representation = $representation;
+  mapper = $mapper;
+  descriptors = [$desc1; $desc2]
+)
+$mfMeLinear05 = ea.s.asyncScheduledMfMapElites(
+  name = "mf-me-linear-0.5";
+  schedule = ea.schedule.linear(min = 0; max = 1);
+  recomputationRatio = 0.5;
+  representation = $representation;
+  mapper = $mapper;
+  descriptors = [$desc1; $desc2]
+)
+$mfMeLinear00 = ea.s.asyncScheduledMfMapElites(
+  name = "mf-me-linear-0.0";
+  schedule = ea.schedule.linear(min = 0; max = 1);
+  recomputationRatio = 0.0;
+  representation = $representation;
+  mapper = $mapper;
+  descriptors = [$desc1; $desc2]
+)
+$mfMeLinear10 = ea.s.asyncScheduledMfMapElites(
+  name = "mf-me-linear-1.0";
+  schedule = ea.schedule.linear(min = 0; max = 1);
+  recomputationRatio = 1.0;
+  representation = $representation;
+  mapper = $mapper;
+  descriptors = [$desc1; $desc2]
+)
+$mfMeHalf = ea.s.asyncScheduledMfMapElites(
+  name = "mf-me-half-linear";
+  schedule = ea.schedule.evenPiecewise(values = [0; 1; 1]);
+  representation = $representation;
+  mapper = $mapper;
+  descriptors = [$desc1; $desc2]
+)
+$mfGaFlat = ea.s.scheduledMfGa(
+  name = "mf-ga-flat";
+  schedule = ea.schedule.flat(value = 1);
+  representation = $representation;
+  mapper = $mapper
+)
+$mfGaQuarter = ea.s.scheduledMfGa(
+  name = "mf-ga-flat-quarter";
+  schedule = ea.schedule.flat(value = 0.25);
+  representation = $representation;
+  mapper = $mapper
+)
+$mfGaLinear = ea.s.scheduledMfGa(
+  name = "mf-ga-linear";
+  schedule = ea.schedule.linear(min = 0; max = 1);
+  representation = $representation;
+  mapper = $mapper
+)
+$mfGaHalf = ea.s.scheduledMfGa(
+  name = "mf-ga-half-linear";
+  schedule = ea.schedule.evenPiecewise(values = [0; 1; 1]);
+  representation = $representation;
+  mapper = $mapper
+)
+$me = ea.s.mapElites(
+  name = "me";
+  representation = $representation;
+  mapper = $mapper;
+  descriptors = [$desc1; $desc2]
+)
+$ga = ea.s.ga(
+  name = "ga";
+  representation = $representation;
+  mapper = $mapper
+)
+

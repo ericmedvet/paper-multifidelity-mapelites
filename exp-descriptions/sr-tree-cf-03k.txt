@@ -1,42 +1,11 @@
-@import("eas.txt")
+@import("import/sr-tree-representation.txt")
+@import("import/sr-indexes.txt")
+@import("import/eas.txt")
 
-$desc1 = ea.s.me.d.descriptor(f = f.size(of = f.filter(of = ea.f.treeLeaves(of = ea.f.genotype()); condition = ea.predicate.isSrConstant())); min = 1; max = 64; nOfBins = 8)
-$desc2 = ea.s.me.d.descriptor(f = f.size(of = f.filter(of = ea.f.treeLeaves(of = ea.f.genotype()); condition = ea.predicate.isSrVariable())); min = 1; max = 64; nOfBins = 8)
-
-$representation = ea.r.srTree()
-$mapper = ea.m.srTreeToNurf()
-
-$cArchive = ea.f.computedArchive(
-  of = ea.f.all();
-  descriptors = [$desc1; $desc2]
-)
-$qdScoreT = 0.2
-$qdScore = ea.f.cached(of = f.as(name = "qd.score"; of = f.sum(format = "%4.2f"; of = f.iEach(
-  of = ea.f.archiveContents(of = $cArchive);
-  iMapF = f.iComposition(
-    of = ea.f.qualityFunction(of = ea.f.problem());
-    before = ea.f.solution();
-    then = f.clip(range = m.range(min = 0; max = $qdScoreT); of = f.mathOp(op = subtract; args = [
-      f.mathConst(v = $qdScoreT);
-      f.mapValue(key = mse)
-    ]))
-  )
-))))
-$valQdScoreT = 0.25
-$valQdScore = ea.f.cached(of = f.as(name = "val.qd.score"; of = f.sum(format = "%4.2f"; of = f.iEach(
-  of = ea.f.archiveContents(of = $cArchive);
-  iMapF = f.iComposition(
-    of = ea.f.validationQualityFunction(of = ea.f.problem());
-    before = ea.f.solution();
-    then = f.clip(range = m.range(min = 0; max = $valQdScoreT); of = f.mathOp(op = subtract; args = [
-      f.mathConst(v = $qdScoreT);
-      f.mapValue(key = mse)
-    ]))
-  )
-))))
+$qF = f.mapValue(key = mse; format = "%5.3f")
 
 ea.experiment(
-  runs = (randomGenerator = (seed = [1:1:30]) * [m.defaultRG()]) *
+  runs = (randomGenerator = (seed = [1:1:1]) * [m.defaultRG()]) *
     (problem = [
       ea.p.moToSo(objective = mse; moProblem = ea.p.ur.synthetic(name = "keijzer6"));
       ea.p.moToSo(objective = mse; moProblem = ea.p.ur.synthetic(name = "nguyen7"));
@@ -45,33 +14,11 @@ ea.experiment(
       ea.p.moToSo(objective = mse; moProblem = ea.p.ur.bundled(name = "wine"; xScaling = standardization; yScaling = symmetric_min_max));
       ea.p.moToSo(objective = mse; moProblem = ea.p.ur.bundled(name = "energy-efficiency"; xScaling = standardization; yScaling = symmetric_min_max))
     ]) *
-    (solver = (stop = ea.sc.cumulativeFidelity(v = 3000)) * [
-      ea.s.asyncScheduledMfMapElites(
-        name = "mf-me-linear";
-        schedule = ea.schedule.linear(min = 0; max = 1);
-        recomputationRatio = 0.5;
-        representation = $representation;
-        mapper = $mapper;
-        descriptors = [$desc1; $desc2]
-      );
-      ea.s.asyncScheduledMfMapElites(
-        name = "mf-me-half-linear";
-        schedule = ea.schedule.evenPiecewise(values = [0; 1; 1]);
-        representation = $representation;
-        mapper = $mapper;
-        descriptors = [$desc1; $desc2]
-      );
-      ea.s.mapElites(
-        name = "me";
-        representation = $representation;
-        mapper = $mapper;
-        descriptors = [$desc1; $desc2]
-      );
-      ea.s.ga(
-        name = "ga";
-        representation = $representation;
-        mapper = $mapper
-      )
+    (solver = (stop = ea.sc.cumulativeFidelity(v = 1000)) * [
+      $mfMeLinear05;
+      $mfMeHalf;
+      $me;
+      $ga
     ]) * [
     ea.run()
   ];
@@ -80,7 +27,9 @@ ea.experiment(
       functions = [
         ea.f.size(of = ea.f.genotype(of = ea.f.best()); format = "%3d");
         f.mapValue(key = mse; of = ea.f.quality(of = ea.f.best()); format = "%6.2f");
+        f.composition(of = f.iApply(of = ea.f.solution(of = ea.f.best()); iF = ea.f.qualityFunction(of = ea.f.problem())); then = $qF);
         f.mapValue(key = mse; of = ea.f.validationQuality(); format = "%6.2f");
+        f.composition(of = f.iApply(of = ea.f.solution(of = ea.f.best()); iF = ea.f.validationQualityFunction(of = ea.f.problem())); then = $qF);
         ea.f.cumulativeFidelity();
         ea.f.archiveCoverage(of = $cArchive);
         $qdScore;
