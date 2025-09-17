@@ -44,7 +44,7 @@ $lBPQD = ea.l.savePlotAndCsvForExp(
 )
 
 $lBPValQD = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-validation-qd-score.svg";
+  path = "./exp-results/{name}/{startTime}/final-val-qd-score.svg";
   plot = ea.plot.multi.yBoxplotExp(y = $valQdScore);
   configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
   type = svg
