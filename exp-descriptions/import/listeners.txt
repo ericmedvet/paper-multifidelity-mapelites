@@ -1,12 +1,9 @@
-$bestQF = ea.f.cached(of = f.composition(of = f.iApply(of = ea.f.solution(of = ea.f.best()); iF = ea.f.qualityFunction(of = ea.f.problem())); then = $qF)) 
-$bestValQF = ea.f.cached(of = f.composition(of = f.iApply(of = ea.f.solution(of = ea.f.best()); iF = ea.f.validationQualityFunction(of = ea.f.problem())); then = $qF))
-
 $lConsole = ea.l.console(
   functions = [
     ea.f.size(of = ea.f.genotype(of = ea.f.best()); format = "%3d");
     f.composition(of = ea.f.quality(of = ea.f.best()); then = $qF);
-    $bestQF;
-    $bestValQF;
+    $bestQ;
+    $bestValQ;
     ea.f.cumulativeFidelity();
     ea.f.archiveCoverage(of = $cArchive);
     $qdScore;
@@ -20,14 +17,14 @@ $lConsole = ea.l.console(
 
 $lBPQuality = ea.l.savePlotAndCsvForExp(
   path = "./exp-results/{name}/{startTime}/final-best-q.svg";
-  plot = ea.plot.multi.yBoxplotExp(y = $bestQF);
+  plot = ea.plot.multi.yBoxplotExp(y = $bestQ);
   configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
   type = svg
 )
 
 $lBPValQuality = ea.l.savePlotAndCsvForExp(
   path = "./exp-results/{name}/{startTime}/final-best-val-q.svg";
-  plot = ea.plot.multi.yBoxplotExp(y = $bestValQF);
+  plot = ea.plot.multi.yBoxplotExp(y = $bestValQ);
   configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
   type = svg
 )
@@ -74,4 +71,106 @@ $lBPEvals = ea.l.savePlotAndCsvForExp(
   type = svg
 )
 
+% ========= SCATTER PLOTS
 
+$lSPQualityVsElapsed = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-best-q-vs-elapsed.svg";
+  plot = ea.plot.multi.scatterExp(x = ea.f.elapsedSecs(); y = $bestQ);
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  secondary = true;
+  type = svg
+)
+
+$lSPValQualityVsElapsed = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-best-val-q-vs-elapsed.svg";
+  plot = ea.plot.multi.scatterExp(x = ea.f.elapsedSecs(); y = $bestValQ);
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  secondary = true;
+  type = svg
+)
+
+$lSPQDVsElapsed = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-qd-score-vs-elapsed.svg";
+  plot = ea.plot.multi.scatterExp(x = ea.f.elapsedSecs(); y = $qdScore);
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  secondary = true;
+  type = svg
+)
+
+$lSPValQDVsElapsed = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-val-qd-score-vs-elapsed.svg";
+  plot = ea.plot.multi.scatterExp(x = ea.f.elapsedSecs(); y = $valQdScore);
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  secondary = true;
+  type = svg
+)
+
+$lSPQualityVsCf = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-best-q-vs-cf.svg";
+  plot = ea.plot.multi.scatterExp(x = ea.f.cumulativeFidelity(); y = $bestQ);
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  secondary = true;
+  type = svg
+)
+
+$lSPValQualityVsCf = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-best-val-q-vs-cf.svg";
+  plot = ea.plot.multi.scatterExp(x = ea.f.cumulativeFidelity(); y = $bestValQ);
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  secondary = true;
+  type = svg
+)
+
+$lSPQDVsCf = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-qd-score-vs-cf.svg";
+  plot = ea.plot.multi.scatterExp(x = ea.f.cumulativeFidelity(); y = $qdScore);
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  secondary = true;
+  type = svg
+)
+
+$lSPValQDVsCf = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-val-qd-score-vs-cf.svg";
+  plot = ea.plot.multi.scatterExp(x = ea.f.cumulativeFidelity(); y = $valQdScore);
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  secondary = true;
+  type = svg
+)
+
+% ========= ARCHIVE PLOTS
+
+$lAQuality = ea.l.savePlotForRun(
+  path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-computed-archive.svg";
+  plot = ea.plot.single.gridRun(
+    values = [f.composition(of = ea.f.quality(); then = $qF)];
+    grids = [ea.f.archiveToGrid(of = $cArchive)]
+  );
+  type = svg
+)
+
+$lAOrigQuality = ea.l.savePlotAndCsvForRun(
+  path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-archive.svg";
+  plot = ea.plot.single.me(q = $qF);
+  condition = predicate.matches(f = ea.f.runKey(key = "run.solver.name"); regex = ".*me.*");
+  type = svg
+)
+
+$lAFidelity = ea.l.savePlotAndCsvForRun(
+  path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-fidelity-archive.svg";
+  plot = ea.plot.single.gridRun(
+    values = [ea.f.mfMeLsFidelity()];
+    grids = [ea.f.archiveToGrid(of = ea.f.mfMeFidelityArchive())]
+  );
+  condition = predicate.matches(f = ea.f.runKey(key = "run.solver.name"); regex = "mf-me.*");
+  type = svg
+)
+
+$lACumulativeFidelity = ea.l.savePlotAndCsvForRun(
+  path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-cum-fidelity-archive.svg";
+  plot = ea.plot.single.gridRun(
+    values = [ea.f.mfMeLsCumulativeFidelity()];
+    grids = [ea.f.archiveToGrid(of = ea.f.mfMeFidelityArchive())]
+  );
+  condition = predicate.matches(f = ea.f.runKey(key = "run.solver.name"); regex = "mf-me.*");
+  type = svg
+)

@@ -1,0 +1,12 @@
+$keijzer6 = ea.p.moToSo(objective = mse; moProblem = ea.p.ur.synthetic(name = "keijzer6"))
+
+$nguyen7 = ea.p.moToSo(objective = mse; moProblem = ea.p.ur.synthetic(name = "nguyen7"))
+
+$vladislavleva4 = ea.p.moToSo(objective = mse; moProblem = ea.p.ur.synthetic(name = "vladislavleva4"))
+
+$concrete = ea.p.moToSo(objective = mse; moProblem = ea.p.ur.bundled(name = "concrete"; xScaling = standardization; yScaling = symmetric_min_max))
+
+$wine = ea.p.moToSo(objective = mse; moProblem = ea.p.ur.bundled(name = "wine"; xScaling = standardization; yScaling = symmetric_min_max))
+
+$energy = ea.p.moToSo(objective = mse; moProblem = ea.p.ur.bundled(name = "energy-efficiency"; xScaling = standardization; yScaling = symmetric_min_max))
+

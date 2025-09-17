@@ -1,5 +1,12 @@
 $qF = f.mapValue(key = mse; format = "%5.3f")
 
+$bestQ = ea.f.cached( 
+  of = f.composition(of = f.iApply(of = ea.f.solution(of = ea.f.best()); iF = ea.f.qualityFunction(of = ea.f.problem())); then = $qF)
+) 
+$bestValQ = ea.f.cached(
+  of = f.composition(of = f.iApply(of = ea.f.solution(of = ea.f.best()); iF = ea.f.validationQualityFunction(of = ea.f.problem())); then = $qF)
+)
+
 $qdScoreT = 0.2
 $valQdScoreT = 0.25
 
