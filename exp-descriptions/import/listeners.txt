@@ -1,0 +1,77 @@
+$bestQF = ea.f.cached(of = f.composition(of = f.iApply(of = ea.f.solution(of = ea.f.best()); iF = ea.f.qualityFunction(of = ea.f.problem())); then = $qF)) 
+$bestValQF = ea.f.cached(of = f.composition(of = f.iApply(of = ea.f.solution(of = ea.f.best()); iF = ea.f.validationQualityFunction(of = ea.f.problem())); then = $qF))
+
+$lConsole = ea.l.console(
+  functions = [
+    ea.f.size(of = ea.f.genotype(of = ea.f.best()); format = "%3d");
+    f.composition(of = ea.f.quality(of = ea.f.best()); then = $qF);
+    $bestQF;
+    $bestValQF;
+    ea.f.cumulativeFidelity();
+    ea.f.archiveCoverage(of = $cArchive);
+    $qdScore;
+    $valQdScore;
+    ea.f.timestamp()
+  ];
+  onlyLast = true
+)
+
+% ========= BOX PLOTS
+
+$lBPQuality = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-best-q.svg";
+  plot = ea.plot.multi.yBoxplotExp(y = $bestQF);
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  type = svg
+)
+
+$lBPValQuality = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-best-val-q.svg";
+  plot = ea.plot.multi.yBoxplotExp(y = $bestValQF);
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  type = svg
+)
+
+$lBPCoverage = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-coverage.svg";
+  plot = ea.plot.multi.yBoxplotExp(y = ea.f.archiveCoverage(of = $cArchive));
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  type = svg
+)
+
+$lBPQD = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-qd-score.svg";
+  plot = ea.plot.multi.yBoxplotExp(y = $qdScore);
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  type = svg
+)
+
+$lBPValQD = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-validation-qd-score.svg";
+  plot = ea.plot.multi.yBoxplotExp(y = $valQdScore);
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  type = svg
+)
+
+$lBPElapsed = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-elapsed.svg";
+  plot = ea.plot.multi.yBoxplotExp(y = ea.f.elapsedSecs());
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  type = svg
+)
+
+$lBPCF = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-cf.svg";
+  plot = ea.plot.multi.yBoxplotExp(y = ea.f.cumulativeFidelity());
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  type = svg
+)
+
+$lBPEvals = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-evals.svg";
+  plot = ea.plot.multi.yBoxplotExp(y = ea.f.nOfEvals());
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  type = svg
+)
+
+

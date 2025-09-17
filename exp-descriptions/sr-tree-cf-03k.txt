@@ -1,8 +1,7 @@
 @import("import/sr-tree-representation.txt")
 @import("import/sr-indexes.txt")
 @import("import/eas.txt")
-
-$qF = f.mapValue(key = mse; format = "%5.3f")
+@import("import/listeners.txt")
 
 ea.experiment(
   runs = (randomGenerator = (seed = [1:1:1]) * [m.defaultRG()]) *
@@ -23,72 +22,16 @@ ea.experiment(
     ea.run()
   ];
   listeners = [
-    ea.l.console(
-      functions = [
-        ea.f.size(of = ea.f.genotype(of = ea.f.best()); format = "%3d");
-        f.mapValue(key = mse; of = ea.f.quality(of = ea.f.best()); format = "%6.2f");
-        f.composition(of = f.iApply(of = ea.f.solution(of = ea.f.best()); iF = ea.f.qualityFunction(of = ea.f.problem())); then = $qF);
-        f.mapValue(key = mse; of = ea.f.validationQuality(); format = "%6.2f");
-        f.composition(of = f.iApply(of = ea.f.solution(of = ea.f.best()); iF = ea.f.validationQualityFunction(of = ea.f.problem())); then = $qF);
-        ea.f.cumulativeFidelity();
-        ea.f.archiveCoverage(of = $cArchive);
-        $qdScore;
-        $valQdScore;
-        ea.f.timestamp()
-      ];
-      onlyLast = true
-    );
-
-    % ========= BOX PLOTS
-    ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/{name}/{startTime}/final-best-fitness.svg";
-      plot = ea.plot.multi.qualityBoxplot(q = f.mapValue(key = mse));
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      type = svg
-    );
-    ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/{name}/{startTime}/final-best-validation.svg";
-      plot = ea.plot.multi.yBoxplotExp(y = f.mapValue(key = mse; of = ea.f.validationQuality()));
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      type = svg
-    );
-    ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/{name}/{startTime}/final-coverage.svg";
-      plot = ea.plot.multi.yBoxplotExp(y = ea.f.archiveCoverage(of = $cArchive));
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      type = svg
-    );
-    ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/{name}/{startTime}/final-qd-score.svg";
-      plot = ea.plot.multi.yBoxplotExp(y = $qdScore);
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      type = svg
-    );
-    ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/{name}/{startTime}/final-validation-qd-score.svg";
-      plot = ea.plot.multi.yBoxplotExp(y = $valQdScore);
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      type = svg
-    );
-    ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/{name}/{startTime}/final-elapsed.svg";
-      plot = ea.plot.multi.yBoxplotExp(y = ea.f.elapsedSecs());
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      type = svg
-    );
-    ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/{name}/{startTime}/final-cf.svg";
-      plot = ea.plot.multi.yBoxplotExp(y = ea.f.cumulativeFidelity());
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      type = svg
-    );
-    ea.l.savePlotAndCsvForExp(
-      path = "./exp-results/{name}/{startTime}/final-evals.svg";
-      plot = ea.plot.multi.yBoxplotExp(y = ea.f.nOfEvals());
-      configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
-      type = svg
-    );
-
+    $lConsole;
+    $lBPQuality;
+    $lBPValQuality;
+    $lBPQD;
+    $lBPValQD;
+    $lBPCoverage;
+    $lBPCF;
+    $lBPEvals;
+    $lBPElapsed;
+    
     % ========= SCATTER PLOTS
     ea.l.savePlotAndCsvForExp(
       path = "./exp-results/{name}/{startTime}/final-best-fitness-vs-elapsed.svg";

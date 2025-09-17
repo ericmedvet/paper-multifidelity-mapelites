@@ -1,9 +1,13 @@
+$qF = f.mapValue(key = mse; format = "%5.3f")
+
 $qdScoreT = 0.2
 $valQdScoreT = 0.25
+
 $cArchive = ea.f.computedArchive(
   of = ea.f.all();
   descriptors = [$desc1; $desc2]
 )
+
 $qdScore = ea.f.cached(of = f.as(name = "qd.score"; of = f.sum(format = "%4.2f"; of = f.iEach(
   of = ea.f.archiveContents(of = $cArchive);
   iMapF = f.iComposition(
@@ -11,10 +15,11 @@ $qdScore = ea.f.cached(of = f.as(name = "qd.score"; of = f.sum(format = "%4.2f";
     before = ea.f.solution();
     then = f.clip(range = m.range(min = 0; max = $qdScoreT); of = f.mathOp(op = subtract; args = [
       f.mathConst(v = $qdScoreT);
-      f.mapValue(key = mse)
+      $qF
     ]))
   )
 ))))
+
 $valQdScore = ea.f.cached(of = f.as(name = "val.qd.score"; of = f.sum(format = "%4.2f"; of = f.iEach(
   of = ea.f.archiveContents(of = $cArchive);
   iMapF = f.iComposition(
@@ -22,7 +27,7 @@ $valQdScore = ea.f.cached(of = f.as(name = "val.qd.score"; of = f.sum(format = "
     before = ea.f.solution();
     then = f.clip(range = m.range(min = 0; max = $valQdScoreT); of = f.mathOp(op = subtract; args = [
       f.mathConst(v = $qdScoreT);
-      f.mapValue(key = mse)
+      $qF
     ]))
   )
 ))))
