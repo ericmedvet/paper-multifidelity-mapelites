@@ -15,8 +15,8 @@ java \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-tree.txt \
   --expHeadLines \
-    '$stop = ea.sc.cumulativeFidelity(v = 3000)' \
     '$name = "regression-tree-cf-03k"' \
+    '$stop = ea.sc.cumulativeFidelity(v = 3000)' \
     '$seeds = [1:1:30]'
 ```
 
@@ -27,8 +27,8 @@ java \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-tree.txt \
   --expHeadLines \
-    '$stop = ea.sc.cumulativeFidelity(v = 10000)' \
     '$name = "regression-tree-cf-10k"' \
+    '$stop = ea.sc.cumulativeFidelity(v = 10000)' \
     '$seeds = [1:1:30]'
 ```
 
@@ -39,8 +39,8 @@ java \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-tree.txt \
   --expHeadLines \
-    '$stop = ea.sc.elapsed(v = 3)' \
     '$name = "regression-tree-t-03"' \
+    '$stop = ea.sc.elapsed(v = 3)' \
     '$seeds = [1:1:30]'
 ```
 
@@ -51,7 +51,22 @@ java \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-tree.txt \
   --expHeadLines \
-    '$stop = ea.sc.elapsed(v = 10)' \
     '$name = "regression-tree-t-10"' \
+    '$stop = ea.sc.elapsed(v = 10)' \
+    '$seeds = [1:1:30]'
+```
+
+### Scalability
+
+Assuming you are running this on a machine with at least 16 core.
+```shell
+java \
+  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -nt 16 -nr 1 \
+  -f exp-descriptions/scalability.txt \
+  --expHeadLines \
+    '$name = "scalability"' \
+    '$time = 3' \
+    '$threads = [1:1:16]' \
     '$seeds = [1:1:30]'
 ```

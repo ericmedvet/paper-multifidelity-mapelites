@@ -174,3 +174,15 @@ $lACumulativeFidelity = ea.l.savePlotAndCsvForRun(
   condition = predicate.matches(f = ea.f.runKey(key = "run.solver.name"); regex = "mf-me.*");
   type = svg
 )
+
+$lLPScalability = ea.l.savePlotAndCsvForExp(
+  path = "./exp-results/{name}/{startTime}/final-cumulative-fidelity.svg";
+  plot = ea.plot.multi.xyExp(
+    ySubplot = ea.f.runString(name = solver; s = "{run.solver.name}");
+    x = ea.f.asDouble(of = ea.f.runKey(key = "run.nOfThreads"));
+    y = ea.f.cumulativeFidelity();
+    useRunForX = true
+  );
+  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]; linesMarkers = true);
+  type = svg
+)
