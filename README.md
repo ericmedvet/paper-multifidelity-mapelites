@@ -16,7 +16,7 @@ java \
   -f exp-descriptions/regression-tree.txt \
   --expHeadLines \
     '$stop = ea.sc.cumulativeFidelity(v = 3000)' \
-    '$name = "sr-tree-cf-03k"' \
+    '$name = "regression-tree-cf-03k"' \
     '$seeds = [1:1:30]'
 ```
 
@@ -28,7 +28,7 @@ java \
   -f exp-descriptions/regression-tree.txt \
   --expHeadLines \
     '$stop = ea.sc.cumulativeFidelity(v = 10000)' \
-    '$name = "sr-tree-cf-10k"' \
+    '$name = "regression-tree-cf-10k"' \
     '$seeds = [1:1:30]'
 ```
 
@@ -40,7 +40,7 @@ java \
   -f exp-descriptions/regression-tree.txt \
   --expHeadLines \
     '$stop = ea.sc.elapsed(v = 3)' \
-    '$name = "sr-tree-t-03"' \
+    '$name = "regression-tree-t-03"' \
     '$seeds = [1:1:30]'
 ```
 
@@ -52,6 +52,6 @@ java \
   -f exp-descriptions/regression-tree.txt \
   --expHeadLines \
     '$stop = ea.sc.elapsed(v = 10)' \
-    '$name = "sr-tree-t-10"' \
+    '$name = "regression-tree-t-10"' \
     '$seeds = [1:1:30]'
 ```
