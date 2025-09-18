@@ -1,8 +1,8 @@
 @import("import/sr-tree-representation.txt")
-@import("import/sr-indexes.txt")
+@import("import/regression-indexes.txt")
 @import("import/eas.txt")
 @import("import/listeners.txt")
-@import("import/sr-problems.txt")
+@import("import/regression-problems.txt")
 
 ea.experiment(
   name = $name;
@@ -12,10 +12,10 @@ ea.experiment(
       $concrete; $wine; $energy
     ]) *
     (solver = (stop = $stop) * [
+      $ga;
       $mfMeLinear05;
       $mfMeHalf;
-      $me;
-      $ga
+      $me
     ]) * [
     ea.run()
   ];
