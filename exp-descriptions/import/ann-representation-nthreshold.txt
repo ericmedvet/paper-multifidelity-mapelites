@@ -1,0 +1,29 @@
+$desc1 = ea.s.me.d.descriptor(
+  f = f.mathOp(
+    op = divide;
+    args = [
+      f.size(of = f.filter(condition = predicate.all(conditions = [predicate.lt(t = 0.5); predicate.gt(t = -0.5)])));
+      f.size()
+    ];
+    of = f.flat(of = f.nTh(of = ds.f.weights(of = ds.f.inner(of = ds.f.inner(of = ea.f.solution()))); n = 0))
+  );
+  min = 0.0;
+  max = 1.0;
+  nOfBins = 8
+)
+$desc2 = ea.s.me.d.descriptor(
+  f = f.mathOp(
+    op = divide;
+    args = [
+      f.size(of = f.filter(condition = predicate.all(conditions = [predicate.lt(t = 0.5); predicate.gt(t = -0.5)])));
+      f.size()
+    ];
+    of = f.flat(of = f.nTh(of = ds.f.weights(of = ds.f.inner(of = ds.f.inner(of = ea.f.solution()))); n = 1))
+  );
+  min = 0.0;
+  max = 1.0;
+  nOfBins = 8
+)
+
+$representation = ea.r.doubleString()
+$mapper = ea.m.nmrfToNurf(of = ea.m.dsToNmrf(npmrf = ds.num.mlp(innerLayers = [8])))

@@ -1,0 +1,21 @@
+$desc1 = ea.s.me.d.descriptor(
+  f = f.avg(of = f.each(
+    of = f.nTh(of = ds.f.weights(of = ds.f.inner(of = ds.f.inner(of = ea.f.solution()))); n = 0);
+    mapF = f.sd()
+  ));
+  min = 0.0;
+  max = 3.0;
+  nOfBins = 8
+)
+$desc2 = ea.s.me.d.descriptor(
+  f = f.avg(of = f.each(
+    of = f.nTh(of = ds.f.weights(of = ds.f.inner(of = ds.f.inner(of = ea.f.solution()))); n = 1);
+    mapF = f.sd()
+  ));
+  min = 0.0;
+  max = 3.0;
+  nOfBins = 8
+)
+
+$representation = ea.r.doubleString()
+$mapper = ea.m.nmrfToNurf(of = ea.m.dsToNmrf(npmrf = ds.num.mlp(innerLayers = [8])))
