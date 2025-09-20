@@ -97,6 +97,8 @@ java \
 
 ### ANN-based regression
 
+#### Impact of descriptors
+
 With descriptors based on number of weigths greater than a threshold:
 ```shell
 java \
@@ -109,8 +111,6 @@ java \
     '$seeds = [1:1:30]'
 ```
 
-#### Impact of descriptors
-
 With descriptors based on variance of ANN weights:
 ```shell
 java \
@@ -119,6 +119,7 @@ java \
   -f exp-descriptions/regression-ann-desc-variance.txt \
   --expHeadLines \
     '$name = "regression-ann-t-10-variance"' \
+    '$bins = 8' \
     '$stop = ea.sc.elapsed(v = 10)' \
     '$seeds = [1:1:30]'
 ```
@@ -131,6 +132,47 @@ java \
   -f exp-descriptions/regression-ann-desc-genes.txt \
   --expHeadLines \
     '$name = "regression-ann-t-10-genes"' \
+    '$stop = ea.sc.elapsed(v = 10)' \
+    '$seeds = [1:1:30]'
+```
+
+#### Impact of archive size
+
+With 12x12 archive:
+```shell
+java \
+  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -nt 16 -nr 1 \
+  -f exp-descriptions/regression-ann-desc-variance.txt \
+  --expHeadLines \
+    '$name = "regression-ann-t-10-variance"' \
+    '$bins = 12' \
+    '$stop = ea.sc.elapsed(v = 10)' \
+    '$seeds = [1:1:30]'
+```
+
+With 16x16 archive:
+```shell
+java \
+  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -nt 16 -nr 1 \
+  -f exp-descriptions/regression-ann-desc-variance.txt \
+  --expHeadLines \
+    '$name = "regression-ann-t-10-variance"' \
+    '$bins = 16' \
+    '$stop = ea.sc.elapsed(v = 10)' \
+    '$seeds = [1:1:30]'
+```
+
+With 20x20 archive:
+```shell
+java \
+  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -nt 16 -nr 1 \
+  -f exp-descriptions/regression-ann-desc-variance.txt \
+  --expHeadLines \
+    '$name = "regression-ann-t-10-variance"' \
+    '$bins = 20' \
     '$stop = ea.sc.elapsed(v = 10)' \
     '$seeds = [1:1:30]'
 ```

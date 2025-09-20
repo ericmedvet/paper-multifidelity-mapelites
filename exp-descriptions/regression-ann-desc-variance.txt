@@ -11,6 +11,7 @@ ea.experiment(
       $concrete; $wine; $energy
     ]) *
     (solver = (stop = $stop) * [
+      $ga;
       $mfMeLinear05;
       $mfMeHalf;
       $me
