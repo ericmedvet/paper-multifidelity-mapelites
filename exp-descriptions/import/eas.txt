@@ -36,6 +36,13 @@ $mfMeHalf = ea.s.asyncScheduledMfMapElites(
   mapper = $mapper;
   descriptors = [$desc1; $desc2]
 )
+$mfMeQuarter = ea.s.asyncScheduledMfMapElites(
+  name = "mf-me-half-quarter";
+  schedule = ea.schedule.flat(value = 0.25);
+  representation = $representation;
+  mapper = $mapper;
+  descriptors = [$desc1; $desc2]
+)
 $mfGaFlat = ea.s.scheduledMfGa(
   name = "mf-ga-flat";
   schedule = ea.schedule.flat(value = 1);

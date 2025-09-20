@@ -56,6 +56,18 @@ java \
     '$seeds = [1:1:30]'
 ```
 
+### Impact of the schedule
+```shell
+java \
+  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -nt 16 -nr 1 \
+  -f exp-descriptions/regression-tree-schedule.txt \
+  --expHeadLines \
+    '$name = "regression-tree-t-10-schedule"' \
+    '$stop = ea.sc.elapsed(v = 10)' \
+    '$seeds = [1:1:30]'
+```
+
 ### Scalability
 
 Assuming you are running this on a machine with at least 16 core.
