@@ -1,0 +1,24 @@
+@import("import/sr-tree-representation.txt")
+@import("import/regression-indexes.txt")
+@import("import/eas.txt")
+@import("import/listeners.txt")
+@import("import/regression-problems.txt")
+
+ea.experiment(
+  name = $name;
+  runs = (randomGenerator = (seed = $seeds) * [m.defaultRG()]) *
+    (problem = [
+      $concrete; $energy
+    ]) *
+    (solver = (stop = $stop) * [
+      $mfMeLinear00; $mfMeLinear10
+    ]) * [
+    ea.run()
+  ];
+  listeners = [
+    $lConsole;
+    $lBPQuality; $lBPValQuality; $lBPQD; $lBPValQD; $lBPCoverage; $lBPCF; $lBPEvals; $lBPElapsed;
+    $lSPQualityVsElapsed; $lSPValQualityVsElapsed; $lSPQDVsElapsed; $lSPValQDVsElapsed; $lSPQualityVsCf; $lSPValQualityVsCf; $lSPQDVsCf; $lSPValQDVsCf;    
+    $lAQuality; $lAOrigQuality; $lAFidelity; $lACumulativeFidelity
+  ]
+)
