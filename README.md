@@ -145,7 +145,7 @@ java \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-ann-desc-variance.txt \
   --expHeadLines \
-    '$name = "regression-ann-t-10-variance"' \
+    '$name = "regression-ann-t-10-variance-12"' \
     '$bins = 12' \
     '$stop = ea.sc.elapsed(v = 10)' \
     '$seeds = [1:1:30]'
@@ -158,7 +158,7 @@ java \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-ann-desc-variance.txt \
   --expHeadLines \
-    '$name = "regression-ann-t-10-variance"' \
+    '$name = "regression-ann-t-10-variance-16"' \
     '$bins = 16' \
     '$stop = ea.sc.elapsed(v = 10)' \
     '$seeds = [1:1:30]'
@@ -171,7 +171,7 @@ java \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-ann-desc-variance.txt \
   --expHeadLines \
-    '$name = "regression-ann-t-10-variance"' \
+    '$name = "regression-ann-t-10-variance-20"' \
     '$bins = 20' \
     '$stop = ea.sc.elapsed(v = 10)' \
     '$seeds = [1:1:30]'
