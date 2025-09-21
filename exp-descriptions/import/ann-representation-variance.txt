@@ -5,7 +5,7 @@ $desc1 = ea.s.me.d.descriptor(
   ));
   min = 0.25;
   max = 3.0;
-  nOfBins = 8
+  nOfBins = $bins
 )
 $desc2 = ea.s.me.d.descriptor(
   f = f.avg(of = f.each(
