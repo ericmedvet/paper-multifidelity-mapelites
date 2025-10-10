@@ -1,0 +1,27 @@
+$bins = 8
+@import("import/control-ann-representation-variance.txt")
+@import("import/navigation-indexes.txt")
+@import("import/eas.txt")
+@import("import/listeners.txt")
+@import("import/navigation-problems.txt")
+
+ea.experiment(
+  name = $name;
+  runs = (randomGenerator = (seed = $seeds) * [m.defaultRG()]) *
+    (problem = [
+      $u_arena
+    ]) *
+    (solver = (stop = $stop) * [
+      $ga;
+      $mfMeLinear05;
+      $mfMeHalf;
+      $me
+    ]) * [
+    ea.run()
+  ];
+  listeners = [
+    $lConsole;
+    $lBPQuality; $lBPQD; $lBPCoverage; $lBPCF; $lBPEvals; $lBPElapsed;
+    $lAQuality; $lAOrigQuality; $lAFidelity; $lACumulativeFidelity
+  ]
+)

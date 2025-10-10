@@ -37,7 +37,7 @@ $mfMeHalf = ea.s.asyncScheduledMfMapElites(
   descriptors = [$desc1; $desc2]
 )
 $mfMeQuarter = ea.s.asyncScheduledMfMapElites(
-  name = "mf-me-half-quarter";
+  name = "mf-me-flat-quarter";
   schedule = ea.schedule.flat(value = 0.25);
   representation = $representation;
   mapper = $mapper;

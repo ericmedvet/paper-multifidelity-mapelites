@@ -1,0 +1,12 @@
+$u_arena = ea.p.simToResolutionSmfbbmo(
+  simulation = ds.sat.fromEnvironment(
+    environment = ds.e.navigation(arena = ds.arena.prepared(
+      name = u_barrier;
+      initialRobotXRange = m.range(min = 0.5; max = 0.5);
+      initialRobotYRange = m.range(min = 0.85; max = 0.85)
+    ))
+  );
+  dTRange = m.range(min = 0.05; max = 0.5);
+  tRange = m.range(min = 0; max = 60);
+  toMinObjectives = [ds.e.n.avgD()]
+)
