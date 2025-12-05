@@ -11,7 +11,7 @@ Requirements:
 Stop criterion: cumulative fidelity > 3k 
 ```shell
 java \
-  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -jar jgea.jar \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-tree.txt \
   --expHeadLines \
@@ -23,7 +23,7 @@ java \
 Stop criterion: cumulative fidelity > 10k 
 ```shell
 java \
-  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -jar jgea.jar \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-tree.txt \
   --expHeadLines \
@@ -35,7 +35,7 @@ java \
 Stop criterion: elapsed time > 3 
 ```shell
 java \
-  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -jar jgea.jar \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-tree.txt \
   --expHeadLines \
@@ -47,7 +47,7 @@ java \
 Stop criterion: elapsed time > 10
 ```shell
 java \
-  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -jar jgea.jar \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-tree.txt \
   --expHeadLines \
@@ -59,7 +59,7 @@ java \
 #### Impact of the schedule
 ```shell
 java \
-  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -jar jgea.jar \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-tree-schedule.txt \
   --expHeadLines \
@@ -71,7 +71,7 @@ java \
 #### Impact of the refresh threshold
 ```shell
 java \
-  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -jar jgea.jar \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-tree-threshold.txt \
   --expHeadLines \
@@ -85,7 +85,7 @@ java \
 Assuming you are running this on a machine with at least 16 core.
 ```shell
 java \
-  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -jar jgea.jar \
   -nt 16 -nr 1 \
   -f exp-descriptions/scalability.txt \
   --expHeadLines \
@@ -102,7 +102,7 @@ java \
 With descriptors based on number of weigths greater than a threshold:
 ```shell
 java \
-  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -jar jgea.jar \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-ann-desc-nthreshold.txt \
   --expHeadLines \
@@ -114,7 +114,7 @@ java \
 With descriptors based on variance of ANN weights:
 ```shell
 java \
-  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -jar jgea.jar \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-ann-desc-variance.txt \
   --expHeadLines \
@@ -127,7 +127,7 @@ java \
 With descriptors based on average value of genes (first and second half):
 ```shell
 java \
-  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -jar jgea.jar \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-ann-desc-genes.txt \
   --expHeadLines \
@@ -141,7 +141,7 @@ java \
 With 12x12 archive:
 ```shell
 java \
-  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -jar jgea.jar \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-ann-desc-variance.txt \
   --expHeadLines \
@@ -154,7 +154,7 @@ java \
 With 16x16 archive:
 ```shell
 java \
-  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -jar jgea.jar \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-ann-desc-variance.txt \
   --expHeadLines \
@@ -167,7 +167,7 @@ java \
 With 20x20 archive:
 ```shell
 java \
-  -jar jgea.experimenter-2.7.1-SNAPSHOT-jar-with-dependencies.jar \
+  -jar jgea.jar \
   -nt 16 -nr 1 \
   -f exp-descriptions/regression-ann-desc-variance.txt \
   --expHeadLines \
