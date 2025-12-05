@@ -1,5 +1,7 @@
+$basePath = ''./exp-results/{^^.name}/{^^.startTime}/''
+
 $lConsole = ea.l.console(
-  functions = [
+  eFunctions = [
     ea.f.size(of = ea.f.genotype(of = ea.f.best()); format = "%3d");
     f.composition(of = ea.f.quality(of = ea.f.best()); then = $qF);
     $bestQ;
@@ -8,7 +10,7 @@ $lConsole = ea.l.console(
     ea.f.archiveCoverage(of = $cArchive);
     $qdScore;
     $valQdScore;
-    ea.f.timestamp()
+    f.timestamp()
   ];
   onlyLast = true
 )
@@ -16,123 +18,123 @@ $lConsole = ea.l.console(
 % ========= BOX PLOTS
 
 $lBPQuality = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-best-q.svg";
+  path = $basePath + "final-best-q.svg";
   plot = ea.plot.multi.yBoxplotExp(y = $bestQ);
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   type = svg
 )
 
 $lBPValQuality = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-best-val-q.svg";
+  path = $basePath + "final-best-val-q.svg";
   plot = ea.plot.multi.yBoxplotExp(y = $bestValQ);
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   type = svg
 )
 
 $lBPCoverage = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-coverage.svg";
+  path = $basePath + "final-coverage.svg";
   plot = ea.plot.multi.yBoxplotExp(y = ea.f.archiveCoverage(of = $cArchive));
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   type = svg
 )
 
 $lBPQD = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-qd-score.svg";
+  path = $basePath + "final-qd-score.svg";
   plot = ea.plot.multi.yBoxplotExp(y = $qdScore);
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   type = svg
 )
 
 $lBPValQD = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-val-qd-score.svg";
+  path = $basePath + "final-val-qd-score.svg";
   plot = ea.plot.multi.yBoxplotExp(y = $valQdScore);
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   type = svg
 )
 
 $lBPElapsed = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-elapsed.svg";
+  path = $basePath + "final-elapsed.svg";
   plot = ea.plot.multi.yBoxplotExp(y = ea.f.elapsedSecs());
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   type = svg
 )
 
 $lBPCF = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-cf.svg";
+  path = $basePath + "final-cf.svg";
   plot = ea.plot.multi.yBoxplotExp(y = ea.f.cumulativeFidelity());
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   type = svg
 )
 
 $lBPEvals = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-evals.svg";
+  path = $basePath + "final-evals.svg";
   plot = ea.plot.multi.yBoxplotExp(y = ea.f.nOfEvals());
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   type = svg
 )
 
 % ========= SCATTER PLOTS
 
 $lSPQualityVsElapsed = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-best-q-vs-elapsed.svg";
+  path = $basePath + "final-best-q-vs-elapsed.svg";
   plot = ea.plot.multi.scatterExp(x = ea.f.elapsedSecs(); y = $bestQ);
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   secondary = true;
   type = svg
 )
 
 $lSPValQualityVsElapsed = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-best-val-q-vs-elapsed.svg";
+  path = $basePath + "final-best-val-q-vs-elapsed.svg";
   plot = ea.plot.multi.scatterExp(x = ea.f.elapsedSecs(); y = $bestValQ);
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   secondary = true;
   type = svg
 )
 
 $lSPQDVsElapsed = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-qd-score-vs-elapsed.svg";
+  path = $basePath + "final-qd-score-vs-elapsed.svg";
   plot = ea.plot.multi.scatterExp(x = ea.f.elapsedSecs(); y = $qdScore);
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   secondary = true;
   type = svg
 )
 
 $lSPValQDVsElapsed = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-val-qd-score-vs-elapsed.svg";
+  path = $basePath + "final-val-qd-score-vs-elapsed.svg";
   plot = ea.plot.multi.scatterExp(x = ea.f.elapsedSecs(); y = $valQdScore);
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   secondary = true;
   type = svg
 )
 
 $lSPQualityVsCf = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-best-q-vs-cf.svg";
+  path = $basePath + "final-best-q-vs-cf.svg";
   plot = ea.plot.multi.scatterExp(x = ea.f.cumulativeFidelity(); y = $bestQ);
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   secondary = true;
   type = svg
 )
 
 $lSPValQualityVsCf = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-best-val-q-vs-cf.svg";
+  path = $basePath + "final-best-val-q-vs-cf.svg";
   plot = ea.plot.multi.scatterExp(x = ea.f.cumulativeFidelity(); y = $bestValQ);
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   secondary = true;
   type = svg
 )
 
 $lSPQDVsCf = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-qd-score-vs-cf.svg";
+  path = $basePath + "final-qd-score-vs-cf.svg";
   plot = ea.plot.multi.scatterExp(x = ea.f.cumulativeFidelity(); y = $qdScore);
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   secondary = true;
   type = svg
 )
 
 $lSPValQDVsCf = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-val-qd-score-vs-cf.svg";
+  path = $basePath + "final-val-qd-score-vs-cf.svg";
   plot = ea.plot.multi.scatterExp(x = ea.f.cumulativeFidelity(); y = $valQdScore);
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]);
   secondary = true;
   type = svg
 )
@@ -140,7 +142,7 @@ $lSPValQDVsCf = ea.l.savePlotAndCsvForExp(
 % ========= ARCHIVE PLOTS
 
 $lAQuality = ea.l.savePlotForRun(
-  path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-computed-archive.svg";
+  path = $basePath + "{solver.name}/{problem.name}/{randomGenerator.seed}-computed-archive.svg";
   plot = ea.plot.single.gridRun(
     values = [f.composition(of = ea.f.quality(); then = $qF)];
     grids = [ea.f.archiveToGrid(of = $cArchive)]
@@ -149,40 +151,40 @@ $lAQuality = ea.l.savePlotForRun(
 )
 
 $lAOrigQuality = ea.l.savePlotAndCsvForRun(
-  path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-archive.svg";
+  path = $basePath + "{solver.name}/{problem.name}/{randomGenerator.seed}-archive.svg";
   plot = ea.plot.single.me(q = $qF);
-  condition = predicate.matches(f = ea.f.runKey(key = "run.solver.name"); regex = ".*me.*");
+  kCondition = predicate.matches(f = f.mappableKey(key = "solver.name"); regex = ".*me.*");
   type = svg
 )
 
 $lAFidelity = ea.l.savePlotAndCsvForRun(
-  path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-fidelity-archive.svg";
+  path = $basePath + "{solver.name}/{problem.name}/{randomGenerator.seed}-fidelity-archive.svg";
   plot = ea.plot.single.gridRun(
     values = [ea.f.mfMeLsFidelity()];
     grids = [ea.f.archiveToGrid(of = ea.f.mfMeFidelityArchive())]
   );
-  condition = predicate.matches(f = ea.f.runKey(key = "run.solver.name"); regex = "mf-me.*");
+  kCondition = predicate.matches(f = f.mappableKey(key = "solver.name"); regex = "mf-me.*");
   type = svg
 )
 
 $lACumulativeFidelity = ea.l.savePlotAndCsvForRun(
-  path = "./exp-results/{name}/{startTime}/{run.solver.name}/{run.problem.name}/{run.randomGenerator.seed}-cum-fidelity-archive.svg";
+  path = $basePath + "{solver.name}/{problem.name}/{randomGenerator.seed}-cum-fidelity-archive.svg";
   plot = ea.plot.single.gridRun(
     values = [ea.f.mfMeLsCumulativeFidelity()];
     grids = [ea.f.archiveToGrid(of = ea.f.mfMeFidelityArchive())]
   );
-  condition = predicate.matches(f = ea.f.runKey(key = "run.solver.name"); regex = "mf-me.*");
+  kCondition = predicate.matches(f = f.mappableKey(key = "solver.name"); regex = "mf-me.*");
   type = svg
 )
 
 $lLPScalability = ea.l.savePlotAndCsvForExp(
-  path = "./exp-results/{name}/{startTime}/final-cumulative-fidelity.svg";
+  path = $basePath + "final-cumulative-fidelity.svg";
   plot = ea.plot.multi.xyExp(
-    ySubplot = ea.f.runString(name = solver; s = "{run.solver.name}");
-    x = ea.f.asDouble(of = ea.f.runKey(key = "run.nOfThreads"));
+    ySubplot = f.mappableKey(name = solver; key = "solver.name");
+    x = ea.f.asDouble(of = f.mappableKey(key = "nOfThreads"));
     y = ea.f.cumulativeFidelity();
-    useRunForX = true
+    useKForX = true
   );
-  configuration = ea.plot.conf.image(axesShow = all; axesIndependences = [all]; linesMarkers = true);
+  configuration = viz.plot.conf.image(axesShow = all; axesIndependences = [all]; linesMarkers = true);
   type = svg
 )
