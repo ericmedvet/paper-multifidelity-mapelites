@@ -177,3 +177,15 @@ java \
     '$seeds = [1:1:30]'
 ```
 
+### ANN-based navigation
+
+```shell
+java \
+  -jar jgea.jar \
+  -nt 16 -nr 1 \
+  -f exp-descriptions/navigation.txt \
+  --expHeadLines \
+    '$name = "navigation"' \
+    '$stop = ea.sc.elapsed(v = 10)' \
+    '$seeds = [1:1:1]'
+```

@@ -1,4 +1,4 @@
-$qF = f.mapValue(key = "avg.dist"; format = "%5.3f"; of = ea.f.behaviorQuality())
+$qF = f.mapValue(key = "final.dist"; format = "%5.3f"; of = ea.f.behaviorQuality())
 
 $bestQ = ea.f.cached( 
   of = f.composition(of = f.iApply(of = ea.f.solution(of = ea.f.best()); iF = ea.f.qualityFunction(of = ea.f.problem())); then = $qF)

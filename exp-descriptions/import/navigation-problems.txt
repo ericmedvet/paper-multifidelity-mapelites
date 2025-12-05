@@ -1,12 +1,28 @@
-$u_arena = ea.p.simToResolutionSmfbbmo(
-  simulation = ds.sat.fromEnvironment(
-    environment = ds.e.navigation(arena = ds.arena.prepared(
-      name = u_barrier;
-      initialRobotXRange = m.range(min = 0.5; max = 0.5);
-      initialRobotYRange = m.range(min = 0.85; max = 0.85)
-    ))
+$navProblems = (simulation = (environment = (arena = [
+  ds.arena.prepared(
+    name = u_barrier;
+    initialRobotXRange = m.range(min = 0.5; max = 0.5);
+    initialRobotYRange = m.range(min = 0.85; max = 0.85)
   );
-  dTRange = m.range(min = 0.05; max = 0.5);
-  tRange = m.range(min = 0; max = 60);
-  toMinObjectives = [ds.e.n.avgD()]
-)
+  ds.arena.prepared(
+    name = a_barrier;
+    initialRobotXRange = m.range(min = 0.45; max = 0.5);
+    initialRobotYRange = m.range(min = 0.78; max = 0.8)
+  );
+  ds.arena.prepared(
+    name = snake;
+    initialRobotXRange = m.range(min = 0.1; max = 0.12);
+    initialRobotYRange = m.range(min = 0.1; max = 0.12);
+    targetXRange = m.range(min = 0.9; max = 0.95);
+    targetYRange = m.range(min = 0.9; max = 0.95)
+  )  
+])
+* [ds.e.navigation()])
+* [ds.sat.fromEnvironment()])
+* [ea.p.simToResolutionSmfbbmo(
+    name = ''{simulation.environment.arena.name}[{dTRange.min}-{dTRange.max}]'';
+    dTRange = m.range(min = 0.05; max = 0.5);
+    tRange = m.range(min = 0; max = 120);
+    toMinObjectives = [ds.e.n.finalD()]
+)]
+

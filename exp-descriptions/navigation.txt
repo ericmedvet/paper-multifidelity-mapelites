@@ -8,9 +8,7 @@ $bins = 8
 ea.experiment(
   name = $name;
   runs = (randomGenerator = (seed = $seeds) * [m.defaultRG()]) *
-    (problem = [
-      $u_arena
-    ]) *
+    (problem = $navProblems) *
     (solver = (stop = $stop) * [
       $ga;
       $mfMeLinear05;
